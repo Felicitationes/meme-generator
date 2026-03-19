@@ -1,0 +1,39 @@
+---
+description: CSS and styling conventions for the project
+globs: "**/*.css"
+alwaysApply: false
+---
+
+# Styling Conventions
+
+Follow these patterns when writing or editing styles.
+
+## Units & Spacing
+
+- Use `rem` for font sizes, padding, margin, and gap
+- Use `px` only for borders and fine-grained values (e.g. `1px`, `2px`)
+- Prefer `gap` over margin for flex/grid layouts
+
+## Typography
+
+- Use system font stacks: `system-ui, -apple-system, sans-serif` or similar
+- Avoid generic web fonts (Inter, Roboto, Arial) as defaults
+- Use `font-weight` for hierarchy (e.g. 600–700 for headings)
+
+## Colors & Theme
+
+- Align with the no-purple-blue rule: avoid purple/blue as primary accents
+- Use semantic neutrals for dark themes: `#1a1a1a` (bg), `#252525` (surface), `#444` (border), `#e0e0e0` (text), `#888` (muted)
+- Define accent colors with warm or cool alternatives (teal, amber, coral, emerald)
+
+## Interactions
+
+- Add `transition` for hover/focus state changes (e.g. `transition: border-color 0.2s, background 0.2s`)
+- Include `:focus` styles with visible outline or border change
+- Use `cursor: pointer` on interactive elements
+
+## Layout
+
+- Use `box-sizing: border-box` globally
+- Prefer `max-width` + `margin: 0 auto` for centered content
+- Use flexbox with `flex-direction: column` and `gap` for form/control layouts
