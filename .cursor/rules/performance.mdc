@@ -1,0 +1,39 @@
+---
+description: Performance best practices - bundle size, lazy loading, caching, runtime
+globs: "**/*.{js,ts,jsx,tsx}"
+alwaysApply: false
+---
+
+# Performance Best Practices
+
+## Bundle Size
+
+- Tree-shake: use named imports (`import { map } from 'lodash-es'`), not default namespace imports
+- Analyze bundle with `vite-bundle-visualizer` or `webpack-bundle-analyzer` before shipping
+- Set and enforce bundle size budgets in CI (e.g. main chunk < 200KB gzipped)
+
+## Lazy Loading
+
+- Code-split routes and heavy features with dynamic `import()`
+- Lazy-load images with `loading="lazy"` and use responsive `srcset`
+- Defer non-critical scripts: analytics, chat widgets, third-party embeds
+
+## Caching Strategy
+
+- Static assets: immutable filenames with content hashes + long `Cache-Control` (1 year)
+- API responses: use `ETag` / `Last-Modified` for conditional requests
+- Client-side: cache API calls with `stale-while-revalidate` pattern
+
+## Runtime Performance
+
+- Avoid blocking the main thread: offload heavy computation to Web Workers
+- Debounce/throttle event handlers (scroll, resize, input)
+- Virtualize long lists (>100 items) — don't render what's not visible
+- Minimize DOM reads inside loops; batch layout-triggering operations
+
+## Database & API
+
+- Add indexes for frequently queried columns
+- Paginate all list endpoints; avoid unbounded `SELECT *`
+- Use connection pooling; set query timeouts
+- N+1 detection: watch for loops that fire individual queries — batch or join instead

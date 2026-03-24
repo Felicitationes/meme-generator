@@ -1,0 +1,41 @@
+---
+description: Monorepo architecture rules - package boundaries, shared code, workspace structure
+alwaysApply: true
+---
+
+# Monorepo Architecture
+
+## Package Boundaries
+
+- Each package/app must have its own `package.json` with explicit dependencies
+- Never import from another package's internal files — only from its public entry point
+- Shared code lives in dedicated `packages/` (e.g. `packages/shared`, `packages/ui`)
+
+```
+✅ import { Button } from '@org/ui';
+❌ import { Button } from '../../packages/ui/src/components/Button';
+```
+
+## Workspace Structure
+
+```
+apps/           → Deployable applications (web, api, mobile)
+packages/       → Shared libraries (ui, utils, config, types)
+tools/          → Build scripts, generators, CI helpers
+```
+
+- Each package owns its own tests, types, and config
+- Root `package.json` handles workspace orchestration only (no app logic)
+
+## Dependency Direction
+
+- `apps/` → `packages/` (allowed)
+- `packages/` → `packages/` (allowed, but avoid circular refs)
+- `packages/` → `apps/` (forbidden)
+- Leaf packages should have zero internal dependencies when possible
+
+## Cross-Package Changes
+
+- Changes spanning multiple packages require a single PR with clear scope per package
+- If a shared package changes its public API, update all consumers in the same PR
+- Use `workspace:*` protocol for internal dependencies

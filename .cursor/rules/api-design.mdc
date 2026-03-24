@@ -1,0 +1,47 @@
+---
+description: REST API design conventions - versioning, response format, status codes
+globs: "**/{api,routes,controllers,handlers}/**/*.{js,ts}"
+alwaysApply: false
+---
+
+# API Design Conventions
+
+## URL Structure
+
+```
+/api/v1/<resource>          → collection (plural nouns, never verbs)
+/api/v1/<resource>/:id      → single resource
+/api/v1/<resource>/:id/sub  → nested relationship
+```
+
+- Use kebab-case for multi-word resources: `/api/v1/user-profiles`
+- Version in the URL path (`/v1/`) for breaking changes; use headers for content negotiation
+
+## HTTP Methods & Status Codes
+
+| Action | Method | Success | Error |
+|--------|--------|---------|-------|
+| List   | GET    | 200     | 400/500 |
+| Create | POST   | 201     | 400/409/500 |
+| Update | PUT/PATCH | 200  | 400/404/500 |
+| Delete | DELETE | 204     | 404/500 |
+
+## Response Envelope
+
+```json
+{
+  "data": { ... },
+  "meta": { "page": 1, "total": 42 },
+  "errors": [{ "code": "VALIDATION_ERROR", "field": "email", "message": "Invalid format" }]
+}
+```
+
+- Always return `data` on success, `errors` array on failure — never both
+- Paginate list endpoints by default (cursor-based preferred over offset)
+
+## General Rules
+
+- Idempotent operations: `GET`, `PUT`, `DELETE` must be safe to retry
+- Rate-limit all public endpoints; return `429 Too Many Requests`
+- Accept and return `Content-Type: application/json` unless streaming
+- Document all endpoints with OpenAPI/Swagger specs

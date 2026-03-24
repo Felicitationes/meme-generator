@@ -7,69 +7,11 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app">
-    <header>
-      <h1>Meme Generator</h1>
-    </header>
-
-    <section class="templates-section" id="templatesSection">
-      <h2 class="templates-heading">Choose a template</h2>
-      <div class="templates-grid" id="templatesGrid">
-        <button type="button" class="template-thumb" data-src="assets/drake.jpg" aria-label="Use Drake meme template">
-          <img src="assets/drake.jpg" alt="Drake meme template">
-          <span>Drake</span>
-        </button>
-        <button type="button" class="template-thumb" data-src="assets/gru.jpg" aria-label="Use Gru meme template">
-          <img src="assets/gru.jpg" alt="Gru meme template">
-          <span>Gru</span>
-        </button>
-        <button type="button" class="template-thumb" data-src="assets/this%20is%20fine.jpg" aria-label="Use This is fine meme template">
-          <img src="assets/this%20is%20fine.jpg" alt="This is fine meme template">
-          <span>This is fine</span>
-        </button>
-        <button type="button" class="template-thumb" data-src="assets/two%20buttons.jpg" aria-label="Use Two buttons meme template">
-          <img src="assets/two%20buttons.jpg" alt="Two buttons meme template">
-          <span>Two buttons</span>
-        </button>
-      </div>
-    </section>
-
-    <div class="upload-divider" id="uploadDivider">
-      <span>or upload your own</span>
-    </div>
-
-    <div class="upload-area" id="uploadArea">
-      <input type="file" id="fileInput" accept="image/*" hidden>
-      <p class="upload-placeholder" id="uploadPlaceholder">Upload an image</p>
-      <p class="upload-hint">or drag and drop an image here</p>
-    </div>
-
-    <div class="canvas-container" id="canvasContainer" hidden>
-      <canvas id="memeCanvas" width="600" height="600"></canvas>
-    </div>
-
-    <div class="controls" id="controls" hidden>
-      <button type="button" class="change-image-btn" id="changeImageBtn">Change image</button>
-      <label class="control-group">
-        <span>Top text <small>(Shift+Enter for line break)</small></span>
-        <textarea id="topText" placeholder="Top text" rows="2" maxlength="200"></textarea>
-      </label>
-      <label class="control-group">
-        <span>Bottom text <small>(Shift+Enter for line break)</small></span>
-        <textarea id="bottomText" placeholder="Bottom text" rows="2" maxlength="200"></textarea>
-      </label>
-      <label class="control-group">
-        <span>Text size: <output id="fontSizeValue">48</output>px</span>
-        <input type="range" id="fontSize" min="12" max="120" value="48">
-      </label>
-      <label class="control-group">
-        <span>Text color</span>
-        <input type="color" id="textColor" value="#ffffff">
-      </label>
-      <button type="button" id="downloadBtn">Download Meme</button>
+  <div id="app">
+    <div class="app-loading">
+      <p>Loading...</p>
     </div>
   </div>
-
-  <script src="app.js"></script>
+  <script type="module" src="/js/main.js"></script>
 </body>
 </html>

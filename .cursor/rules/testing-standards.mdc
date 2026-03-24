@@ -1,0 +1,50 @@
+---
+description: Testing patterns, structure, and coverage requirements
+globs: "**/*.{test,spec}.{js,ts,jsx,tsx}"
+alwaysApply: false
+---
+
+# Testing Standards
+
+## Test Pyramid
+
+- **Unit tests** (70%): Pure functions, utilities, business logic — fast, isolated
+- **Integration tests** (20%): API routes, DB queries, service interactions
+- **E2E tests** (10%): Critical user journeys only — login, checkout, core workflows
+
+## Test Structure
+
+Use Arrange-Act-Assert (AAA) pattern with descriptive names:
+
+```javascript
+describe('CartService', () => {
+  it('applies percentage discount when coupon is valid', () => {
+    const cart = createCart({ items: [{ price: 100 }] });  // Arrange
+    cart.applyCoupon('20OFF');                               // Act
+    expect(cart.total).toBe(80);                            // Assert
+  });
+});
+```
+
+## Naming Convention
+
+- `it('does X when Y')` — behavior-focused, not implementation-focused
+- One assertion concept per test; multiple `expect` calls are fine if testing one behavior
+
+## What to Test
+
+- Business logic and state transitions
+- Edge cases: empty input, boundary values, error paths, concurrent access
+- API contracts (request/response shapes)
+- Do NOT test framework internals, private methods, or trivial getters/setters
+
+## Mocking
+
+- Mock at boundaries (network, DB, file system) — not internal modules
+- Prefer dependency injection over monkey-patching
+- Reset mocks between tests to avoid state leakage
+
+## CI Integration
+
+- Tests must pass before merge — no skipping
+- Track coverage trends; enforce minimum thresholds per package (e.g. 80% line coverage)
