@@ -1,0 +1,45 @@
+---
+description: Security best practices - secrets, auth, input validation, supply chain
+alwaysApply: true
+---
+
+# Security Best Practices
+
+## Secrets Management
+
+- Never hardcode secrets, API keys, tokens, or credentials in source code
+- Use environment variables or a secrets manager (Vault, AWS SSM, Doppler)
+- Add `.env`, `.env.*`, `*.pem`, `*.key` to `.gitignore` — verify before every commit
+- Rotate secrets on any suspected exposure
+
+## Input Validation
+
+- Validate and sanitize ALL external input (API params, form data, URL params, headers)
+- Use schema validation (Zod, Joi, JSON Schema) at API boundaries
+- Reject unknown fields by default; use allowlists, not denylists
+
+## Authentication & Authorization
+
+- Use established standards (OAuth 2.0, OIDC, JWT with short expiry)
+- Enforce auth at the middleware/gateway layer, not inside business logic
+- Apply principle of least privilege — scope permissions per role/resource
+
+## Dependencies
+
+- Pin exact dependency versions in production apps
+- Run `npm audit` / `pnpm audit` in CI — fail builds on critical vulnerabilities
+- Prefer well-maintained packages with active security response
+
+## Common Pitfalls
+
+```javascript
+// ❌ SQL injection risk
+db.query(`SELECT * FROM users WHERE id = '${userId}'`);
+
+// ✅ Parameterized query
+db.query('SELECT * FROM users WHERE id = $1', [userId]);
+```
+
+- Sanitize HTML output to prevent XSS
+- Use CSRF tokens for state-changing requests
+- Set security headers: `Content-Security-Policy`, `X-Frame-Options`, `Strict-Transport-Security`

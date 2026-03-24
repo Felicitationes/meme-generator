@@ -1,19 +1,43 @@
 # Meme Generator
 
-A simple web app to create memes: upload an image, add top and bottom text (white with black border), resize the text, and download the result as a PNG.
-
-## How to run
-
-1. Open `index.html` in a browser (double-click the file or use **File → Open**).
-2. Or run a local server from this folder, for example:
-   - **Python 3:** `python3 -m http.server 8000` then visit http://localhost:8000
-   - **Node (npx):** `npx serve` then open the URL shown in the terminal
+A fullstack meme app: create memes, post them to a feed, and upvote others' memes. Built with vanilla JS and [InstantDB](https://instantdb.com).
 
 ## Features
 
-- **Image template** — Click the upload area or drag and drop an image.
-- **Top & bottom text** — Classic meme layout; text is white with a black outline.
-- **Text size** — Use the slider (12–120px) to resize the text.
-- **Download** — Click "Download Meme" to save the canvas as a PNG file.
+- **Auth** — Magic code login (email → verification code)
+- **Create memes** — Choose a template or upload your own image, add top/bottom text, customize size and color
+- **Post memes** — Save memes to the shared feed
+- **Feed** — Browse memes from all users, sorted by newest
+- **Upvote** — One vote per user per meme; toggle to unvote
 
-No build step or server is required; the app runs entirely in the browser.
+## How to run
+
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Configure InstantDB** (one-time)
+   - Create a `.env` file with:
+     ```
+     VITE_INSTANT_APP_ID=1817d86b-3637-4bb4-8996-099b553f92bf
+     ```
+   - Log in to the Instant CLI and push schema/permissions:
+     ```bash
+     npx instant-cli@latest login
+     npx instant-cli@latest push schema
+     npx instant-cli@latest push perms
+     ```
+   - If you change the schema (e.g. add links), run `push schema` and `push perms` again.
+
+3. **Start the dev server**
+   ```bash
+   npm run dev
+   ```
+   Then open http://localhost:5173
+
+## Tech stack
+
+- Vanilla JavaScript (ES modules)
+- Vite
+- [InstantDB](https://instantdb.com) — database, auth, file storage, realtime sync

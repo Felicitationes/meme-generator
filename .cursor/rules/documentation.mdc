@@ -1,0 +1,49 @@
+---
+description: Documentation standards - code docs, ADRs, changelogs, READMEs
+alwaysApply: true
+---
+
+# Documentation Standards
+
+## Code Documentation
+
+- Document **why**, not **what** — code should be self-explanatory for the "what"
+- Add JSDoc/TSDoc for public APIs, exported functions, and non-obvious parameters
+- Skip docs for trivial getters, setters, or obvious one-liners
+
+```typescript
+/**
+ * Retries with exponential backoff because the upstream payment
+ * provider has intermittent 503s during peak hours.
+ */
+async function chargeWithRetry(amount: number, retries = 3): Promise<Receipt> { ... }
+```
+
+## Package READMEs
+
+Every package in the monorepo must have a README with:
+
+1. **What it does** (one sentence)
+2. **Installation / setup** (if any)
+3. **Usage example** (minimal working snippet)
+4. **Public API** (link to types or brief table)
+
+## Architecture Decision Records (ADRs)
+
+For significant decisions, create `docs/adr/NNNN-title.md`:
+
+```markdown
+# ADR-0001: Use PostgreSQL over MongoDB
+
+**Status:** Accepted
+**Date:** 2025-01-15
+**Context:** We need ACID transactions for financial data...
+**Decision:** PostgreSQL with Prisma ORM
+**Consequences:** Requires migration tooling; team needs SQL knowledge
+```
+
+## Changelogs
+
+- Maintain `CHANGELOG.md` per package following [Keep a Changelog](https://keepachangelog.com/)
+- Group by: Added, Changed, Deprecated, Removed, Fixed, Security
+- Reference ticket/PR numbers for traceability

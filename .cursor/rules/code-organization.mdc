@@ -1,0 +1,51 @@
+---
+description: Code organization - module structure, separation of concerns, file layout
+globs: "**/*.{js,ts,jsx,tsx}"
+alwaysApply: false
+---
+
+# Code Organization
+
+## Single Responsibility
+
+- One module = one purpose. If a file does two unrelated things, split it.
+- Functions under 40 lines; files under 300 lines (guidelines, not hard limits)
+- If you need a comment block saying "--- Section X ---", it's a new file
+
+## Directory Convention
+
+```
+feature/
+  index.ts          → Public API (barrel export)
+  feature.ts        → Core logic
+  feature.test.ts   → Tests colocated with source
+  feature.types.ts  → Types/interfaces (if complex)
+  utils.ts          → Feature-specific helpers
+```
+
+- Colocate tests, types, and styles with the code they support
+- Use barrel exports (`index.ts`) to define what's public; keep internals private
+
+## Import Order
+
+Group imports in this order, separated by blank lines:
+
+1. Node built-ins (`node:fs`, `node:path`)
+2. External packages (`react`, `express`)
+3. Internal packages (`@org/ui`, `@org/utils`)
+4. Relative imports (`./utils`, `../shared`)
+
+## Separation of Concerns
+
+- Business logic must not depend on framework/transport details
+- Keep I/O (DB, HTTP, file system) at the edges; core logic stays pure
+- Configuration lives in dedicated files — never scatter env reads across modules
+
+## Avoid
+
+```
+❌ Circular imports between modules
+❌ God files (>500 lines touching multiple domains)
+❌ Deeply nested folders (>4 levels) without clear benefit
+❌ Re-exporting everything from a package root (barrel bloat)
+```

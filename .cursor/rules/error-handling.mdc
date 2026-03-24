@@ -1,0 +1,41 @@
+---
+description: Structured error handling and logging standards
+globs: "**/*.{js,ts,jsx,tsx}"
+alwaysApply: false
+---
+
+# Error Handling & Logging
+
+## Never Swallow Errors
+
+```javascript
+// ❌ Silent failure
+try { await save(data); } catch (e) {}
+
+// ✅ Log, classify, and propagate
+try {
+  await save(data);
+} catch (error) {
+  logger.error('Failed to save record', { error, recordId: data.id });
+  throw new AppError('SAVE_FAILED', 'Could not persist record', { cause: error });
+}
+```
+
+## Error Classification
+
+Use typed/custom errors with machine-readable codes:
+
+- **Operational errors** (expected): bad input, network timeout, auth failure → handle gracefully
+- **Programmer errors** (bugs): undefined access, type mismatches → crash fast, fix code
+
+## Structured Logging
+
+- Use structured JSON logs (not `console.log` in production)
+- Include: `timestamp`, `level`, `message`, `correlationId`, `service`, `error`
+- Log levels: `debug` (dev only), `info` (state transitions), `warn` (degraded), `error` (failures)
+
+## Boundaries
+
+- Validate and sanitize at system boundaries (API handlers, message consumers)
+- Return user-safe error messages; log full details server-side
+- Never expose stack traces, internal paths, or DB errors to clients

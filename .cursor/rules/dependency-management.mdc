@@ -1,0 +1,42 @@
+---
+description: Dependency management - lockfiles, version policies, auditing
+alwaysApply: true
+---
+
+# Dependency Management
+
+## Lockfiles
+
+- Always commit lockfiles (`package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`)
+- Use `npm ci` / `pnpm install --frozen-lockfile` in CI — never `npm install`
+- One package manager per repo; enforce with `packageManager` field or `only-allow`
+
+## Version Policy
+
+- **Apps** (deployable): Pin exact versions (`"react": "18.3.1"`) for reproducibility
+- **Libraries** (published): Use ranges (`"react": "^18.0.0"`) for compatibility
+- Internal workspace packages: Use `workspace:*` protocol
+
+## Adding Dependencies
+
+Before adding a package, evaluate:
+
+1. **Maintenance**: Last publish date, open issues, bus factor
+2. **Size**: Check bundle impact with `bundlephobia.com`
+3. **Security**: Run `npm audit` after adding; reject packages with critical CVEs
+4. **Overlap**: Does an existing dependency already cover this?
+
+## Prohibited Patterns
+
+```
+❌ Installing from Git URLs or tarballs in production
+❌ Using `latest` or `*` as version specifiers
+❌ Duplicating the same package at different major versions across the monorepo
+❌ Adding devDependencies to production bundles
+```
+
+## Updates
+
+- Schedule regular dependency updates (weekly for patches, monthly for minors)
+- Use Renovate or Dependabot for automated PRs
+- Major version bumps require manual review and testing
